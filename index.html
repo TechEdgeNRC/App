@@ -2,29 +2,98 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>To-Do List</title>
-    <!-- Font Awesome CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Sender</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
 </head>
-<body>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <form id="emailForm" class="max-w-md mx-auto bg-white p-8 rounded-md shadow-md mt-16">
 
-    <div class="container">
-        <div class="back">
-            <a href="#pages">☚ Back</a>
-        </div>
-        <h1>To-Do List</h1>
-        <div class="input-container">
-            <input type="text" id="taskInput" placeholder="Add a task...">
-            <button onclick="addTask()">Add</button>
-        </div>
-        <ul id="taskList" class="task-list">
-            <!-- Each task item -->
+            <div class="mb-4">
+                <label for="sendTo" class="block text-gray-700 text-sm font-bold mb-2">Send to:</label>
+                <input type="email" class="form-input w-full border rounded-md px-3 py-2" id="sendTo" required oninput="validateEmail()">
+            </div>
 
-            <!-- Other task items -->
-        </ul>
+            <div class="mb-4">
+                <label for="subject" class="block text-gray-700 text-sm font-bold mb-2">Subject:</label>
+                <input type="text" class="form-input w-full border rounded-md px-3 py-2" id="subject" required value="Tag ">
+            </div>
+
+            <div class="mb-4">
+                <label for="body" class="block text-gray-700 text-sm font-bold mb-2">Body:</label>
+
+<select class="form-select w-full border rounded-md px-3 py-2" id="body">
+<!-- English First Quote--> 
+<option value=
+"Option 1
+"
+>EN - First Quote</option>
+<!-- English Following Quotes-->
+<option value=
+"Option 2
+"
+>EN - Following Quotes</option>
+<!-- English Final Quote-->
+<option value=
+"Option 3
+"
+>EN - Final Quote</option>
+<!-- French First Quote-->
+<option value=
+"Option 4
+"
+>FR - Première estimation</option>
+<!-- French Following Quotes-->
+<option value=
+"Option 5
+"
+>FR - Estimations suivantes</option>
+<!-- French Last Quote-->
+<option value=
+"Option 6
+"
+>FR - Estimation finale</option>
+
+</select>
+            </div>
+
+            <button type="button" class="bg-green-500 text-white px-4 py-2 rounded-md" onclick="composeEmail()">Compose Email</button>
+        </form>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        function composeEmail() {
+            var sendTo = document.getElementById('sendTo').value;
+            var subject = document.getElementById('subject').value;
+            var body = document.getElementById('body').value;
+    
+            var mailtoLink = 'mailto:' + encodeURIComponent(sendTo) +
+                             '?subject=' + encodeURIComponent(subject) +
+                             '&body=' + encodeURIComponent(body);
+    
+            // Open a new window or tab with the mailto link
+            window.open(mailtoLink, '_blank');
+        }
+
+        function validateEmail() {
+            var sendToInput = document.getElementById('sendTo');
+            var isValidEmail = isValidEmailAddress(sendToInput.value);
+
+            // Change border color based on email validity
+            if (isValidEmail) {
+                sendToInput.style.border = '2px solid #4CAF50'; // Green border for a valid email
+            } else {
+                sendToInput.style.border = '2px solid #f44336'; // Red border for an invalid email
+            }
+        }
+
+        function isValidEmailAddress(email) {
+            // Basic email validation, you can enhance this as needed
+            var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(email);
+        }
+
+    </script>
 </body>
 </html>
