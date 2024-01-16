@@ -1,0 +1,22 @@
+/*
+# Font to use 
+font-family: 'Figtree', sans-serif;
+
+body: 15px
+heading: 24px
+titles: 36px
+*/
+
+:root {
+    --navy: #003767;
+    --light-blue: #00A8E1;
+    --gray-text: #58585B;
+    --white: #fff;
+    --black: #000;
+    --sec-blue: #147EC2;
+    --sec-light-blue: #6DCFF6;
+    --sec-gray: #ECECEC;
+    /*
+    color: var(--navy);
+    */
+}
