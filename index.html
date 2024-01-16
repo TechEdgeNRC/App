@@ -17,7 +17,7 @@
 
             <div class="mb-4">
                 <label for="subject" class="block text-gray-700 text-sm font-bold mb-2">Subject:</label>
-                <input type="text" class="form-input w-full border rounded-md px-3 py-2" id="subject" required value="Tag ">
+                <input type="text" class="form-input w-full border rounded-md px-3 py-2" id="subject" required value="Repair ">
             </div>
 
             <div class="mb-4">
@@ -26,34 +26,136 @@
 <select class="form-select w-full border rounded-md px-3 py-2" id="body">
 <!-- English First Quote--> 
 <option value=
-"Option 1
+"Hello,
+
+We've sent the quote for the repair of your equipment.
+
+Your answer matters! If you have any questions, feel free to reach out.
+
+Repair tag:
+
+Kind regards,
+
+
+** Pour assurer un suivi adéquat, veuillez nous envoyer votre réponse à ce courriel. Merci **
+** To ensure a proper follow-up, please send your answer on this email. Thank you **
+
+
+National Repair Center | Patterson Dentaire / Dental Canada Inc.  
+(p) 514.745.4074 | (f) 514.745.0781 | CNR-NRC@pattersoncompanies.com
+TRUSTED EXPERTISE. UNRIVALED SUPPORT.™
 "
 >EN - First Quote</option>
-<!-- English Following Quotes-->
-<option value=
-"Option 2
-"
->EN - Following Quotes</option>
+
 <!-- English Final Quote-->
 <option value=
-"Option 3
+"Hello,
+
+We've sent the quote for the repair of your equipment.
+
+This is our final attempt to reach you, if we don't get a response within 7 days, we will return the equipment unrepaired.
+
+Your answer matters! If you have any questions, feel free to reach out.
+
+Repair tag:
+
+Kind regards,
+
+
+** Pour assurer un suivi adéquat, veuillez nous envoyer votre réponse à ce courriel. Merci **
+** To ensure a proper follow-up, please send your answer on this email. Thank you **
+
+
+National Repair Center | Patterson Dentaire / Dental Canada Inc.  
+(p) 514.745.4074 | (f) 514.745.0781 | CNR-NRC@pattersoncompanies.com
+TRUSTED EXPERTISE. UNRIVALED SUPPORT.™
 "
 >EN - Final Quote</option>
 <!-- French First Quote-->
 <option value=
-"Option 4
+"Bonjour,
+
+Nous avons envoyé l'estimation pour la réparation de votre équipement.
+
+Votre réponse est importante! Si vous avez des questions n'hésitez pas à nous contacter.
+
+Billet de réparation:
+
+Cordialement,
+
+
+** Pour assurer un suivi adéquat, veuillez nous envoyer votre réponse à ce courriel. Merci **
+** To ensure a proper follow-up, please send your answer on this email. Thank you **
+
+
+Centre National de Réparation | Patterson Dentaire / Dental Canada Inc.  
+(p) 514.745.4074 | (f) 514.745.0781 | CNR-NRC@pattersoncompanies.com
+TRUSTED EXPERTISE. UNRIVALED SUPPORT.™
 "
 >FR - Première estimation</option>
-<!-- French Following Quotes-->
-<option value=
-"Option 5
-"
->FR - Estimations suivantes</option>
+
 <!-- French Last Quote-->
 <option value=
-"Option 6
+"Bonjour,
+
+Nous avons envoyé l'estimation pour la réparation de votre équipement.
+
+Ceci est notre dernière tentative pour vous joindre, si nous n'obtenons pas de réponse dans les 7 jours, nous vous retournerons l'équipement non réparé.
+
+Votre réponse est importante! Si vous avez des questions n'hésitez pas à nous contacter.
+
+Billet de réparation:
+
+Cordialement,
+
+
+** Pour assurer un suivi adéquat, veuillez nous envoyer votre réponse à ce courriel. Merci **
+** To ensure a proper follow-up, please send your answer on this email. Thank you **
+
+
+Centre National de Réparation | Patterson Dentaire / Dental Canada Inc.  
+(p) 514.745.4074 | (f) 514.745.0781 | CNR-NRC@pattersoncompanies.com
+TRUSTED EXPERTISE. UNRIVALED SUPPORT.™
 "
 >FR - Estimation finale</option>
+
+<!-- Accepter EN -->
+<option value=
+"Hello,
+
+Thank you for your response. Parts have been ordered for your repair and as soon as we receive them, we will proceed with the repair and return the unit to you.
+
+Thank you and have a nice day
+
+
+** Pour assurer un suivi adéquat, veuillez nous envoyer votre réponse à ce courriel. Merci **
+** To ensure a proper follow-up, please send your answer on this email. Thank you **
+
+
+Centre National de Réparation | Patterson Dentaire / Dental Canada Inc.  
+(p) 514.745.4074 | (f) 514.745.0781 | CNR-NRC@pattersoncompanies.com
+TRUSTED EXPERTISE. UNRIVALED SUPPORT.™
+"
+>EN - Acceptation</option>
+
+<!-- Accepter FR-->
+<option value=
+"Bonjour,
+
+Merci pour votre réponse. Nous avons commandé les pièces pour votre réparation et dès leur réception, nous allons procéder à la réparation de votre appareil et vous le retourner.
+
+Merci et bonne journée
+
+
+** Pour assurer un suivi adéquat, veuillez nous envoyer votre réponse à ce courriel. Merci **
+** To ensure a proper follow-up, please send your answer on this email. Thank you **
+
+
+Centre National de Réparation | Patterson Dentaire / Dental Canada Inc.  
+(p) 514.745.4074 | (f) 514.745.0781 | CNR-NRC@pattersoncompanies.com
+TRUSTED EXPERTISE. UNRIVALED SUPPORT.™
+"
+>FR - Acceptation</option>
 
 </select>
             </div>
@@ -66,20 +168,33 @@
         function composeEmail() {
             var sendTo = document.getElementById('sendTo').value;
             var subject = document.getElementById('subject').value;
-            var body = document.getElementById('body').value;
-    
+            var bodyTemplate = document.getElementById('body');
+
+            // Get the selected template value from the dropdown
+            var selectedTemplate = bodyTemplate.value;
+
+            // Determine the placeholder based on the language
+            var placeholder = (selectedTemplate.includes('Billet de réparation:')) ? 'Billet de réparation:' : 'Repair tag:';
+
+            // Extract only the numeric part from the subject
+            var numericPart = subject.replace(/\D/g, '');
+
+            // Replace the placeholder with the numeric part
+            var updatedBody = selectedTemplate.replace(placeholder, placeholder + ' ' + numericPart);
+
             var mailtoLink = 'mailto:' + encodeURIComponent(sendTo) +
-                             '?subject=' + encodeURIComponent(subject) +
-                             '&body=' + encodeURIComponent(body);
-    
+                            '?subject=' + encodeURIComponent(subject) +
+                            '&body=' + encodeURIComponent(updatedBody);
+
             // Open a new window or tab with the mailto link
             window.open(mailtoLink, '_blank');
         }
 
+    
         function validateEmail() {
             var sendToInput = document.getElementById('sendTo');
             var isValidEmail = isValidEmailAddress(sendToInput.value);
-
+    
             // Change border color based on email validity
             if (isValidEmail) {
                 sendToInput.style.border = '2px solid #4CAF50'; // Green border for a valid email
@@ -87,13 +202,13 @@
                 sendToInput.style.border = '2px solid #f44336'; // Red border for an invalid email
             }
         }
-
+    
         function isValidEmailAddress(email) {
             // Basic email validation, you can enhance this as needed
             var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return regex.test(email);
         }
-
     </script>
+    
 </body>
 </html>
