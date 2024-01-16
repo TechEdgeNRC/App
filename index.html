@@ -20,6 +20,11 @@
             </div>
 
             <div class="mb-4">
+                <label for="cc" class="block text-gray-700 text-sm font-bold mb-2">CC:</label>
+                <input type="email" class="form-input w-full border rounded-md px-3 py-2" id="cc" oninput="validateEmail()">
+            </div>
+
+            <div class="mb-4">
                 <label for="subject" class="block text-gray-700 text-sm font-bold mb-2">Subject:</label>
                 <input type="text" class="form-input w-full border rounded-md px-3 py-2" id="subject" required value="Repair ">
             </div>
@@ -154,31 +159,24 @@ Thank you and have a nice day
     <script>
         function composeEmail() {
             var sendTo = document.getElementById('sendTo').value;
+            var cc = document.getElementById('cc').value;
             var subject = document.getElementById('subject').value;
             var bodyTemplate = document.getElementById('body');
 
-            // Get the selected template value from the dropdown
             var selectedTemplate = bodyTemplate.value;
-
-            // Determine the placeholder based on the language
             var placeholder = (selectedTemplate.includes('Billet de réparation:')) ? 'Billet de réparation:' : 'Repair tag:';
-
-            // Extract only the numeric part from the subject
             var numericPart = subject.replace(/\D/g, '');
-
-            // Replace the placeholder with the numeric part
             var updatedBody = selectedTemplate.replace(placeholder, placeholder + ' ' + numericPart);
-
-            // Update the subject based on the template language
             var updatedSubject = (selectedTemplate.includes('Bonjour')) ? 'Réparation ' + numericPart : 'Repair ' + numericPart;
 
             var mailtoLink = 'mailto:' + encodeURIComponent(sendTo) +
-                            '?subject=' + encodeURIComponent(updatedSubject) +
+                            (cc ? '?cc=' + encodeURIComponent(cc) : '') + // Use ? if CC exists, otherwise, no query parameter
+                            '&subject=' + encodeURIComponent(updatedSubject) +
                             '&body=' + encodeURIComponent(updatedBody);
 
-            // Open a new window or tab with the mailto link
             window.open(mailtoLink, '_blank');
         }
+
 
         function validateEmail() {
             var sendToInput = document.getElementById('sendTo');
