@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Email Sender</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <style>
+        .highlighted {
+            background-color: yellow; /* Adjust the color as needed */
+        }
+    </style>    
 </head>
 <body class="bg-gray-100">
     <div class="container mx-auto p-4">
@@ -96,19 +101,6 @@ Cordialement,
 "
 >FR - Estimation finale</option>
 
-<!-- Accepter EN -->
-<option value=
-"Hello,
-
-Thank you for your response. Parts have been ordered for your repair and as soon as we receive them, we will proceed with the repair and return the unit to you.
-
-Thank you and have a nice day
-
-
-** Pour assurer un suivi adéquat, veuillez nous envoyer votre réponse à ce courriel. Merci **
-** To ensure a proper follow-up, please send your answer on this email. Thank you **
-"
->EN - Acceptation</option>
                 </select>
             </div>
 
@@ -120,8 +112,7 @@ Thank you and have a nice day
             <h2 class="text-xl font-bold mb-4">Acceptation</h2>
 
             <!-- Button for French -->
-            <button class="bg-blue-500 text-white px-4 py-2 rounded-md mr-2" onclick="copyToClipboard(
-`
+            <button class="bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300 text-white px-4 py-2 rounded-md mr-2" onclick="copyToClipboard('FR - Acceptation', `
 Bonjour,
 
 Merci pour votre réponse. Nous avons commandé les pièces pour votre réparation et dès leur réception, nous allons procéder à la réparation de votre appareil et vous le retourner.
@@ -131,12 +122,10 @@ Merci et bonne journé
 
 ** Pour assurer un suivi adéquat, veuillez nous envoyer votre réponse à ce courriel. Merci **
 ** To ensure a proper follow-up, please send your answer on this email. Thank you **
-`
-            )">Français</button>
+            `)">Français</button>
 
             <!-- Button for English -->
-            <button class="bg-green-500 text-white px-4 py-2 rounded-md" onclick="copyToClipboard(
-`
+            <button class="bg-green-500 hover:bg-green-700 focus:outline-none focus:ring focus:border-green-300 text-white px-4 py-2 rounded-md" onclick="copyToClipboard('EN - Acceptation', `
 Hello,
 
 Thank you for your response. Parts have been ordered for your repair and as soon as we receive them, we will proceed with the repair and return the unit to you.
@@ -146,8 +135,19 @@ Thank you and have a nice day
 
 ** Pour assurer un suivi adéquat, veuillez nous envoyer votre réponse à ce courriel. Merci **
 ** To ensure a proper follow-up, please send your answer on this email. Thank you **
-`
-            )">English</button>
+            `)">English</button>
+
+<!-- Checkmark and Copied message -->
+<div class="hidden inline-block" id="copiedMessageWrapper" style="float: right; margin-bottom: 10px;">
+    <div id="copiedMessage">
+        <svg class="fill-current text-green-500 w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>
+        <span class="text-green-500 ml-1">Copied</span>
+    </div>
+</div>
+
+
+
+
         </div>
     </div>
 
@@ -179,7 +179,7 @@ Thank you and have a nice day
             // Open a new window or tab with the mailto link
             window.open(mailtoLink, '_blank');
         }
-    
+
         function validateEmail() {
             var sendToInput = document.getElementById('sendTo');
             var isValidEmail = isValidEmailAddress(sendToInput.value);
@@ -191,34 +191,33 @@ Thank you and have a nice day
                 sendToInput.style.border = '2px solid #f44336'; // Red border for an invalid email
             }
         }
-    
+
         function isValidEmailAddress(email) {
             // Basic email validation, you can enhance this as needed
             var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return regex.test(email);
         }
 
-        function copyToClipboard(text) {
-            // Create a temporary textarea element
-            var textarea = document.createElement('textarea');
+        function copyToClipboard(key, text) {
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
 
-            // Set the value of the textarea to the specified text
-            textarea.value = text;
+        var copiedMessageWrapper = document.getElementById('copiedMessageWrapper');
 
-            // Append the textarea to the document
-            document.body.appendChild(textarea);
+        // Check if the element exists and is not null before modifying its style
+        if (copiedMessageWrapper !== null && typeof copiedMessageWrapper !== 'undefined') {
+            copiedMessageWrapper.style.display = 'inline-block';
 
-            // Select and copy the text in the textarea
-            textarea.select();
-            document.execCommand('copy');
-
-            // Remove the textarea from the document
-            document.body.removeChild(textarea);
-
-            // Alert the user that the text has been copied (you can customize this part)
-            alert('Text copied to clipboard: ');
+            setTimeout(function () {
+                copiedMessageWrapper.style.display = 'none';
+            }, 5000);
         }
-    </script>
+    }
 
+    </script>
 </body>
 </html>
