@@ -9,7 +9,6 @@
 <body class="bg-gray-100">
     <div class="container mx-auto p-4">
         <form id="emailForm" class="max-w-md mx-auto bg-white p-8 rounded-md shadow-md mt-16">
-
             <div class="mb-4">
                 <label for="sendTo" class="block text-gray-700 text-sm font-bold mb-2">Send to:</label>
                 <input type="email" class="form-input w-full border rounded-md px-3 py-2" id="sendTo" required oninput="validateEmail()">
@@ -22,9 +21,7 @@
 
             <div class="mb-4">
                 <label for="body" class="block text-gray-700 text-sm font-bold mb-2">Body:</label>
-
-<select class="form-select w-full border rounded-md px-3 py-2" id="body">
-<!-- English First Quote--> 
+                <select class="form-select w-full border rounded-md px-3 py-2" id="body">
 <option value=
 "Hello,
 
@@ -40,7 +37,7 @@ Kind regards,
 ** Pour assurer un suivi adéquat, veuillez nous envoyer votre réponse à ce courriel. Merci **
 ** To ensure a proper follow-up, please send your answer on this email. Thank you **
 "
->EN - First Quote</option>
+>EN - Quotes</option>
 
 <!-- English Final Quote-->
 <option value=
@@ -77,7 +74,7 @@ Cordialement,
 ** Pour assurer un suivi adéquat, veuillez nous envoyer votre réponse à ce courriel. Merci **
 ** To ensure a proper follow-up, please send your answer on this email. Thank you **
 "
->FR - Première estimation</option>
+>FR - Estimations</option>
 
 <!-- French Last Quote-->
 <option value=
@@ -112,26 +109,46 @@ Thank you and have a nice day
 ** To ensure a proper follow-up, please send your answer on this email. Thank you **
 "
 >EN - Acceptation</option>
-
-<!-- Accepter FR-->
-<option value=
-"Bonjour,
-
-Merci pour votre réponse. Nous avons commandé les pièces pour votre réparation et dès leur réception, nous allons procéder à la réparation de votre appareil et vous le retourner.
-
-Merci et bonne journée
-
-
-** Pour assurer un suivi adéquat, veuillez nous envoyer votre réponse à ce courriel. Merci **
-** To ensure a proper follow-up, please send your answer on this email. Thank you **
-"
->FR - Acceptation</option>
-
-</select>
+                </select>
             </div>
 
             <button type="button" class="bg-green-500 text-white px-4 py-2 rounded-md" onclick="composeEmail()">Compose Email</button>
         </form>
+
+        <!-- New Section for Acceptation -->
+        <div class="max-w-md mx-auto bg-white p-8 rounded-md shadow-md mt-8">
+            <h2 class="text-xl font-bold mb-4">Acceptation</h2>
+
+            <!-- Button for French -->
+            <button class="bg-blue-500 text-white px-4 py-2 rounded-md mr-2" onclick="copyToClipboard(
+`
+Bonjour,
+
+Merci pour votre réponse. Nous avons commandé les pièces pour votre réparation et dès leur réception, nous allons procéder à la réparation de votre appareil et vous le retourner.
+
+Merci et bonne journé
+
+
+** Pour assurer un suivi adéquat, veuillez nous envoyer votre réponse à ce courriel. Merci **
+** To ensure a proper follow-up, please send your answer on this email. Thank you **
+`
+            )">Français</button>
+
+            <!-- Button for English -->
+            <button class="bg-green-500 text-white px-4 py-2 rounded-md" onclick="copyToClipboard(
+`
+Hello,
+
+Thank you for your response. Parts have been ordered for your repair and as soon as we receive them, we will proceed with the repair and return the unit to you.
+
+Thank you and have a nice day
+
+
+** Pour assurer un suivi adéquat, veuillez nous envoyer votre réponse à ce courriel. Merci **
+** To ensure a proper follow-up, please send your answer on this email. Thank you **
+`
+            )">English</button>
+        </div>
     </div>
 
     <script>
@@ -152,14 +169,16 @@ Merci et bonne journée
             // Replace the placeholder with the numeric part
             var updatedBody = selectedTemplate.replace(placeholder, placeholder + ' ' + numericPart);
 
+            // Update the subject based on the template language
+            var updatedSubject = (selectedTemplate.includes('Bonjour')) ? 'Réparation ' + numericPart : 'Repair ' + numericPart;
+
             var mailtoLink = 'mailto:' + encodeURIComponent(sendTo) +
-                            '?subject=' + encodeURIComponent(subject) +
+                            '?subject=' + encodeURIComponent(updatedSubject) +
                             '&body=' + encodeURIComponent(updatedBody);
 
             // Open a new window or tab with the mailto link
             window.open(mailtoLink, '_blank');
         }
-
     
         function validateEmail() {
             var sendToInput = document.getElementById('sendTo');
@@ -178,7 +197,28 @@ Merci et bonne journée
             var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return regex.test(email);
         }
+
+        function copyToClipboard(text) {
+            // Create a temporary textarea element
+            var textarea = document.createElement('textarea');
+
+            // Set the value of the textarea to the specified text
+            textarea.value = text;
+
+            // Append the textarea to the document
+            document.body.appendChild(textarea);
+
+            // Select and copy the text in the textarea
+            textarea.select();
+            document.execCommand('copy');
+
+            // Remove the textarea from the document
+            document.body.removeChild(textarea);
+
+            // Alert the user that the text has been copied (you can customize this part)
+            alert('Text copied to clipboard: ');
+        }
     </script>
-    
+
 </body>
 </html>
