@@ -8,7 +8,7 @@ function composeEmail() {
     var placeholder = (selectedTemplate.includes('Billet de réparation:')) ? 'Billet de réparation:' : 'Repair tag:';
     var numericPart = subject.replace(/\D/g, '');
     var updatedBody = selectedTemplate.replace(placeholder, placeholder + ' ' + numericPart);
-    var updatedSubject = (selectedTemplate.includes('Bonjour')) ? 'Réparation ' + numericPart : 'Repair ' + numericPart;
+    var updatedSubject = (selectedTemplate.includes('Bonjour')) ? 'Mise à jour réparation Patterson Dentaire:  ' + numericPart : 'Patterson Dental repair update tag: ' + numericPart;
 
     // Create an array to store the mailto parameters
     var mailtoParams = [
